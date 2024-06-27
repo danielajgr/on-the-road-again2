@@ -8,6 +8,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:sensor_demo/objects/game_state.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 class Snake extends StatefulWidget {
@@ -69,11 +70,6 @@ class SnakeState extends State<Snake> {
   late Timer _timer;
 
   @override
-  Widget build(BuildContext context) {
-    return CustomPaint(painter: SnakeBoardPainter(state, cellSize));
-  }
-
-  @override
   void dispose() {
     super.dispose();
     _streamSubscription.cancel();
@@ -107,26 +103,9 @@ class SnakeState extends State<Snake> {
                 : math.Point<int>(-acceleration!.x.sign.toInt(), 0);
     state!.step(newDirection);
   }
-}
 
-class GameState {
-  GameState(this.rows, this.columns) {
-    snakeLength = math.min(rows, columns) - 5;
-  }
-
-  int rows;
-  int columns;
-  late int snakeLength;
-
-  List<math.Point<int>> body = <math.Point<int>>[const math.Point<int>(0, 0)];
-  math.Point<int> direction = const math.Point<int>(1, 0);
-
-  void step(math.Point<int>? newDirection) {
-    var next = body.last + direction;
-    next = math.Point<int>(next.x % columns, next.y % rows);
-
-    body.add(next);
-    if (body.length > snakeLength) body.removeAt(0);
-    direction = newDirection ?? direction;
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(painter: SnakeBoardPainter(state, cellSize));
   }
 }
