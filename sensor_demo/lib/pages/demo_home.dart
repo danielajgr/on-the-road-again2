@@ -87,7 +87,7 @@ class SensorHomePageState extends State<SensorHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sensor Example'),
+        title: Text(widget.title!),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
